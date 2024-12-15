@@ -3,26 +3,7 @@ import { Link } from 'expo-router';
 import { Image, StyleSheet, FlatList, View, Text } from 'react-native';
 
 
-async function loadMembers() {
-    const users = await fetch(`http://127.0.0.1:8000/members/`);
-    return await users.json();
-}
-
-const userData = loadMembers()
-
-export default function TableView() {
-
-  const [d, setD] = useState()
-
-    useEffect(() => {
-       const getData = async () => {
-         const data = await loadMembers()
-         console.log(data);
-         setD(data);
-       }
-
-       getData()
-    }, [])
+export default function TableView({members}: any) {
 
   return (
 
@@ -31,7 +12,7 @@ export default function TableView() {
         <View style={{ backgroundColor: "gray", height: 2 }} />
       )}
 
-      data={d}
+      data={members}
 
       keyExtractor={(item) => item.id} // Assuming 'id' is unique
 
@@ -100,5 +81,15 @@ const styles = StyleSheet.create({
     link: {
         paddingTop: 20,
         paddingBottom: 20,
+    },
+    plus: {
+      flex: 1,
+      backgroundColor: '#FFFFFF',
+      alignItems: 'flex-end',
+      justifyContent: 'flex-end',
+    },
+    text: {
+      color: 'blue',
+      fontSize: 55,
     },
   });
