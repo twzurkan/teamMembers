@@ -1,39 +1,45 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+import { Stack, useRouter } from "expo-router";
+import { Pressable, Text, StyleSheet, View } from "react-native";
+import { blue } from "react-native-reanimated/lib/typescript/Colors";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+  const router = useRouter();
 
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+  const handleNavigation = () => {
+    router.push({ pathname: '/modal', params: { isNew: 'true', item: null } });
+  };
+  
+  return <Stack>
+    <Stack.Screen name="index" options={{ title:'Team members',
+          // header: () => (
+          // <View style={{ backgroundColor: 'white', height: 80, padding: 20 }}>
+          //   <Text style={{ color: 'black', fontSize: 20 }}>Team members</Text>
+          // </View>
+          // ),
+          headerRight: () => (
+          <Pressable style={styles.plus} onPress={() => handleNavigation()}>
+            <Text style={styles.text}>+</Text>
+          </Pressable>
+          ),}}/>
+    <Stack.Screen
+      name="modal"
+      options={{
+        presentation: 'modal',
+        headerShown: false
+      }}
+    />
+  </Stack>
 }
+
+const styles = StyleSheet.create({
+  plus: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+  },
+  text: {
+    color: 'blue',
+    fontSize: 55,
+  },
+});
