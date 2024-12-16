@@ -1,7 +1,7 @@
 import { View, StyleSheet, Text, Pressable } from 'react-native';
 
 import TableView from '@/components/TableView';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect, useNavigation, useRouter } from 'expo-router';
 
 async function loadMembers() {
@@ -21,7 +21,7 @@ export default function Index() {
   const navigation = useNavigation();
   const [data, setData] = useState()
 
-  useFocusEffect(() => {
+  const fetchData = useCallback(() => {
 
     const getData = async () => {
       const data = await loadMembers()
@@ -39,9 +39,11 @@ export default function Index() {
        )
       });
       }
-
+      useCallback
     getData()
-  });
+  }, []);
+
+  useFocusEffect(fetchData)
   
   return (
     <View style={styles.container}>
