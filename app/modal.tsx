@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Text, View, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from "react-native"
 import { useForm, Controller } from "react-hook-form"
 import React, { useEffect, useState } from 'react';
@@ -6,6 +6,7 @@ import {Picker} from '@react-native-picker/picker';
 
 
 export default function Modal() {
+  const router = useRouter();
   const [showSuccess, setShowSuccess] = useState(false);
   const [showFailure, setShowFailure] = useState("");
   const [obj, setObj] = useState({id:0,first:"",last:"",email:"",phone:"", role: "Regular"})
@@ -85,6 +86,8 @@ export default function Modal() {
       setShowSuccess(true);
       setShowFailure("");
 
+      router.back()
+
     } catch (error) {
       // Handle error
       setShowSuccess(false);
@@ -121,6 +124,7 @@ export default function Modal() {
       setShowSuccess(true);
       setShowFailure("");
       
+      router.back()
 
     } catch (error) {
       // Handle error
