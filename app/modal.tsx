@@ -214,14 +214,14 @@ export default function Modal() {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput style={{width: '80%',height: 40, borderColor: 'gray', borderWidth: 1}}
-                placeholder="Enter phone number without dashes"
+                placeholder="Enter phone number with dashes"
                 value={value}
                 onChange={onChange}
               />
             )}
             name="phone"
         />
-        {errors.phone && <Text style={styles.errorText}>Invalid phone number.</Text>}
+        {errors.phone && <Text style={styles.errorText}>Invalid phone number. Please use format (555)-555-5555 or 555-555-5555 or +01 555-555-5555</Text>}
         
         <View style={{ height: 15 }} />
         </View>
